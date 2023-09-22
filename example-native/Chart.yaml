@@ -1,6 +1,8 @@
 apiVersion: v2
 name: example-native
 description: Generic helm chart for all kind of applications
+type: 'application'
+version: 'v1.0.0'
 dependencies:
   - name: 'base-k8s-app'
     version: '0.1.3'
