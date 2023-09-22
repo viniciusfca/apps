@@ -1,0 +1,82 @@
+# -- Same as nameOverride but for the namespace.
+namespaceOverride: ""
+
+# -- Same as nameOverride but for the component.
+componentOverride: ""
+
+# -- Same as nameOverride but for the partOf.
+partOfOverride: ""
+
+##########################################################
+# Name of the application.
+##########################################################
+applicationName: "example-native"
+
+##########################################################
+# Deployment
+##########################################################
+deployment:
+  enabled: true
+  strategy:
+    type: RollingUpdate
+  reloadOnChange: true
+  replicas: 2  # Defina o número de réplicas aqui
+
+  image:
+    repository: viniciusfca/example-native  # Repositório da imagem Docker
+    tag: "v1.0.0"
+    pullPolicy: IfNotPresent
+
+  env:
+    - name: HEALTHCHECK_PATH
+      value: "/v1/healthcheck"
+
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: "/v1/healthcheck"
+      port: 8080  # Porta para o Probe de prontidão
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: "/v1/healthcheck"
+      port: 8080  # Porta para o Probe de vitalidade
+    initialDelaySeconds: 15
+    periodSeconds: 10
+
+##########################################################
+# HPA - Horizontal Pod Autoscaling
+##########################################################
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilization: 75
+
+##########################################################
+# Service object for servicing pods
+##########################################################
+service:
+  enabled: true
+  additionalLabels:
+    # expose: "true"
+
+  annotations:
+    # kubernetes.io/ingress.class: external-ingress
+    # ingress.kubernetes.io/rewrite-target: /
+    # ingress.kubernetes.io/force-ssl-redirect: true
+
+  ports:
+    - port: 8080  # Porta do Service
+      name: http
+      protocol: TCP
+      targetPort: 8080  # Porta alvo nos pods
+
+  type: ClusterIP  # Tipo de serviço ClusterIP
+
+  # clusterIP:
+
+# ... (outras configurações permanecem inalteradas)
