@@ -47,6 +47,14 @@ deployment:
     initialDelaySeconds: 15
     periodSeconds: 10
 
+resources:
+  limits:
+    memory: 256Mi
+    cpu: 100m
+  requests:
+    memory: 128Mi
+    cpu: 50m
+
 ##########################################################
 # HPA - Horizontal Pod Autoscaling
 ##########################################################
