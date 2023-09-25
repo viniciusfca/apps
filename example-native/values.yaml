@@ -61,7 +61,7 @@ base-k8s-app:
       JDBC_URL:
          value: "jdbc:postgresql://postgres-service.default.svc.cluster.local:5432/postgres"
       DATABASE_PASS:
-         value: "12345"
+         value: "123456"
      
   
     # Image of the app container
