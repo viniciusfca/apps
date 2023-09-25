@@ -29,7 +29,7 @@ base-k8s-app:
     # Init containers which runs before the app container
     # initContainers:
     #    init-contaner:
-    #       image: viniciusfca/example-native:v1.0.2
+    #       image: viniciusfca/example-native:v1.0.3
     #       imagePullPolicy: IfNotPresent
     #       command: ['./example-native']
   
@@ -65,7 +65,7 @@ base-k8s-app:
      
   
     # Image of the app container
-    image:
+    image: viniciusfca/example-native:v1.0.3
       repository: viniciusfca/example-native
       tag: v1.0.2
       pullPolicy: IfNotPresent
@@ -125,7 +125,7 @@ base-k8s-app:
     # Add additional containers besides init and app containers
     # additionalContainers:
     # - name: sidecar-contaner
-    #   image: busybox
+    #   image: viniciusfca/example-native:v1.0.3
     #   imagePullPolicy: IfNotPresent
     #   command: ['/bin/sh']
   
