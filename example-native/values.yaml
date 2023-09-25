@@ -72,7 +72,7 @@ base-k8s-app:
   
     # Startup, Readiness and Liveness probes
     startupProbe:
-      enabled: true
+      enabled: false
       failureThreshold: 30
       periodSeconds: 10
       httpGet:
@@ -81,7 +81,7 @@ base-k8s-app:
       exec: { }
   
     readinessProbe:
-      enabled: true
+      enabled: false
       failureThreshold: 3
       periodSeconds: 10
       successThreshold: 1
@@ -92,7 +92,7 @@ base-k8s-app:
         port: 8080
   
     livenessProbe:
-      enabled: true
+      enabled: false
       failureThreshold: 3
       periodSeconds: 10
       successThreshold: 1
