@@ -69,7 +69,6 @@ base-k8s-app:
       repository: viniciusfca/example-native
       tag: v1.0.2
       pullPolicy: IfNotPresent
-      command: ['./example-native']
   
     # Startup, Readiness and Liveness probes
     startupProbe:
