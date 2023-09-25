@@ -30,7 +30,6 @@ base-k8s-app:
     initContainers:
        init-contaner:
           image: viniciusfca/example-native:v1.0.0
-          tag: v1.0.0
           imagePullPolicy: IfNotPresent
           command: ['./example-native']
   
@@ -77,6 +76,13 @@ base-k8s-app:
     env:
       ENVIRONMENT:
          value: "dev"
+      REDIS_HOST:
+         value: "redis-deployment.default.svc.cluster.local"
+      JDBC_URL:
+         value: "jdbc:postgresql://postgres-deployment.default.svc.cluster.local:5432/sonarqube"
+      DATABASE_PASS:
+         value: "123456"
+     
     
     # Volumes to be added to the pod
     # volumes:
