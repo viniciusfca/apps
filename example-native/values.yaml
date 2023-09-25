@@ -1,8 +1,8 @@
-base-k8s-apps:
+base-k8s-app:
   # Name of the application.
   applicationName: "example-native"
   
-  namespaceOverride: ""
+  namespaceOverride: "example-native"
   
   # These labels will be added on all resources, and you can add additional labels from below on individual resource
   labels:
@@ -29,9 +29,10 @@ base-k8s-apps:
     # Init containers which runs before the app container
     initContainers:
        init-contaner:
-          image: busybox
+          image: viniciusfca/example-native
+          tag: v1.0.0
           imagePullPolicy: IfNotPresent
-          command: ['/bin/sh']
+          command: ['./example-native']
   
     # Additional labels for Deployment
     additionalLabels:
