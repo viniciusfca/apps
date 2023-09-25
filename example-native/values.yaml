@@ -27,11 +27,11 @@ base-k8s-app:
   
   
     # Init containers which runs before the app container
-    initContainers:
-       init-contaner:
-          image: viniciusfca/example-native:v1.0.2
-          imagePullPolicy: IfNotPresent
-          command: ['./example-native']
+    # initContainers:
+    #    init-contaner:
+    #       image: viniciusfca/example-native:v1.0.2
+    #       imagePullPolicy: IfNotPresent
+    #       command: ['./example-native']
   
     # Additional labels for Deployment
     additionalLabels:
