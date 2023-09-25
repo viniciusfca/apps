@@ -79,7 +79,7 @@ base-k8s-app:
       REDIS_HOST:
          value: "redis-deployment.default.svc.cluster.local"
       JDBC_URL:
-         value: "jdbc:postgresql://postgres-deployment.default.svc.cluster.local:5432/sonarqube"
+         value: "jdbc:postgresql://postgres-deployment.default.svc.cluster.local:5432/postgres"
       DATABASE_PASS:
          value: "123456"
      
