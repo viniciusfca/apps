@@ -65,7 +65,7 @@ base-k8s-app:
      
   
     # Image of the app container
-    image: viniciusfca/example-native
+    image:
       repository: viniciusfca/example-native
       tag: v1.0.3
       pullPolicy: IfNotPresent
