@@ -6,4 +6,4 @@ version: 'v1.0.0'
 dependencies:
   - name: 'base-k8s-app'
     version: '0.1.3'
-    repository: 'https://c5dc-2804-1e68-8000-23e8-a998-bc94-37bc-ace2.ngrok.io'
+    repository: 'https://426f-2804-1e68-8000-23e8-a998-bc94-37bc-ace2.ngrok.io'
