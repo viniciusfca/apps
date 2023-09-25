@@ -77,9 +77,9 @@ base-k8s-app:
       ENVIRONMENT:
          value: "dev"
       REDIS_HOST:
-         value: "redis-deployment.default.svc.cluster.local"
+         value: "redis-service.default.svc.cluster.local"
       JDBC_URL:
-         value: "jdbc:postgresql://postgres-deployment.default.svc.cluster.local:5432/postgres"
+         value: "jdbc:postgresql://postgres-service.default.svc.cluster.local:5432/postgres"
       DATABASE_PASS:
          value: "123456"
      
