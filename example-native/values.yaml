@@ -67,7 +67,7 @@ base-k8s-app:
     # Image of the app container
     image:
       repository: viniciusfca/example-native
-      tag: v1.0.3
+      tag: v1.0.2
       pullPolicy: IfNotPresent
   
     # Startup, Readiness and Liveness probes
