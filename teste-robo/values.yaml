@@ -90,11 +90,11 @@ base-k8s-app:
     # Resources to be defined for pod
     resources:
       limits:
-        memory: 256Mi
-        cpu: 0.5
+        memory: 1Gi
+        cpu: 1
       requests:
-        memory: 128Mi
-        cpu: 0.1
+        memory: 512Mi
+        cpu: 0.5
 
     # Security Context at Container Level
     containerSecurityContext:
