@@ -1,0 +1,197 @@
+base-k8s-app:
+  # Name of the application.
+  applicationName: "robo-worker"
+
+  namespaceOverride: "robo-worker"
+
+  # These labels will be added on all resources, and you can add additional labels from below on individual resource
+  labels:
+    group: com.core-test
+    team: core
+  deployment:
+    dnsConfig:
+      options:
+        - name: ndots
+          value: "1"
+    # By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25%
+    # You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 50%
+        maxUnavailable: 50%
+
+    # Reload deployment if configMap/secret updates
+    reloadOnChange: true
+
+    # Init containers which runs before the app container
+    # initContainers:
+    #    init-contaner:
+    #       image: viniciusfca/example-native:v1.0.3
+    #       imagePullPolicy: IfNotPresent
+    #       command: ['./example-native']
+
+    # Additional labels for Deployment
+    additionalLabels:
+      key: value
+
+    # Additional label added on pod which is used in Service's Label Selector
+    podLabels:
+      env: prod
+
+    # Annotations on deployments
+    annotations:
+
+    # Additional Pod Annotations added on pod created by this Deployment
+    additionalPodAnnotations:
+      key: value
+
+    # Replicas to be created
+    replicas: 1
+
+    # Image of the app container
+    image:
+      repository: viniciusfca/robo-worker
+      tag: v1.0.0
+      pullPolicy: IfNotPresent
+
+    # Startup, Readiness and Liveness probes
+    startupProbe:
+      enabled: false
+      failureThreshold: 30
+      periodSeconds: 10
+      httpGet:
+        path: "/v1/healthcheck"
+        port: 8080
+      exec: {}
+
+    readinessProbe:
+      enabled: false
+      failureThreshold: 3
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+      initialDelaySeconds: 10
+      httpGet:
+        path: /v1/healthcheck
+        port: 8080
+
+    livenessProbe:
+      enabled: false
+      failureThreshold: 3
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+      initialDelaySeconds: 10
+      httpGet:
+        path: /v1/healthcheck
+        port: 8080
+
+    # Resources to be defined for pod
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 0.5
+      requests:
+        memory: 128Mi
+        cpu: 0.1
+
+    # Security Context at Container Level
+    containerSecurityContext:
+      readOnlyRootFilesystem: false
+      runAsNonRoot: false
+
+    # openshiftOAuthProxy:
+    #   enabled: true
+    #   port: 8080
+    #   secretName: "openshift-oauth-proxy-tls"
+
+    # Add additional containers besides init and app containers
+    # additionalContainers:
+    # - name: sidecar-contaner
+    #   image: viniciusfca/example-native:v1.0.3
+    #   imagePullPolicy: IfNotPresent
+    #   command: ['/bin/sh']
+
+    # Security Context for the pod
+    securityContext:
+      # fsGroup: 2000
+
+    # Command for primary container
+    command: []
+
+    # Args for primary contaner
+    args: []
+
+    # List of ports for the primary container
+    ports:
+      - containerPort: 3000
+        name: http
+        protocol: TCP
+    # - containerPort: 8778
+    #   name: jolokia
+    #   protocol: TCP
+    # - containerPort: 8443
+    #   name: https
+    #   protocol: TCP
+
+  # Service object for servicing pods
+  service:
+    additionalLabels:
+      key: value
+      expose: "false"
+    annotations:
+      config.xposer.stakater.com/Domain: core-test.com
+      config.xposer.stakater.com/IngressNameTemplate: '{{ "{{.Service}}-{{.Namespace}}" }}'
+      config.xposer.stakater.com/IngressURLPath: /
+      config.xposer.stakater.com/IngressURLTemplate: '{{ "{{.Service}}.{{.Namespace}}.{{.Domain}}" }}'
+      service.alpha.openshift.io/serving-cert-secret-name: |
+        '{{ template "application.name" . }}-tls'
+      xposer.stakater.com/annotations: |-
+        kubernetes.io/ingress.class: external-ingress
+        ingress.kubernetes.io/rewrite-target: /
+        ingress.kubernetes.io/force-ssl-redirect: "true"
+
+    ports:
+      - port: 8080
+        name: http
+        protocol: TCP
+        targetPort: 8080
+    type: ClusterIP
+
+  # autoscaling is used for horizonal pod autoscaling
+  autoscaling:
+    # enabled is a boolean flag for enabling or disabling autoscaling
+    enabled: true
+    # additionalLabels defines additional labels
+    additionalLabels:
+      key: value
+    # annotations defines annotations in key value pair
+    annotations:
+      # key: value
+    # minReplicas sets the minimum number of replicas
+    minReplicas: 1
+    # maxReplicas sets the maximum number of replicas
+    maxReplicas: 10
+    # metrics is the list of metrics used for hpa
+    metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 75
+    # - type: Resource
+    #   resource:
+    #     name: memory
+    #     target:
+    #        type: Utilization
+    #        averageUtilization: 60
+
+  ##########################################################
+  # Pod disruption budget - PDB
+  ##########################################################
+  pdb:
+    enabled: false
+    minAvailable: 1
+    maxUnavailable: 2
