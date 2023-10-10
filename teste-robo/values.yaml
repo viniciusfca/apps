@@ -52,7 +52,7 @@ base-k8s-app:
     # Image of the app container
     image:
       repository: viniciusfca/robo-worker
-      tag: v1.0.0
+      tag: v1.0.1
       pullPolicy: IfNotPresent
 
     # Startup, Readiness and Liveness probes
